@@ -20,6 +20,8 @@
       :text="value.name"
   />
 </van-grid>
+<briup-product-item v-for="p in products" :key="p.id" :data="p" @click="$emit('click')">
+</briup-product-item>
     </div>
   </div>
 </template>
@@ -42,7 +44,13 @@ export default {
     loadCategoties(){
       let url="/category/findAll"
       get(url).then((response) => {
-        this.category = response.data.slice(0,6)
+        // this.category = response.data.slice(0,6)
+        response.data.forEach(item => {
+          if(item.icon != null){
+            this.category.push(item)
+          }
+          
+        });
       })
     },
     loadProducts(){

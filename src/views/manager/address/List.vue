@@ -23,7 +23,20 @@
     size="large"
     :title="item.province +'    '+ item.city +'    '+ item.area"
     :label="info.name"
+  >
+  <van-icon
+    slot="right-icon"
+    name="edit"
+    style="line-height: inherit;"
+    @click="toEditAddressHandler(item)"
   />
+  <van-icon
+    slot="right-icon"
+    name="delete"
+    style="line-height: inherit;"
+    @click="toDeleteAddressHandler(item)"
+  />
+  </van-cell>
 </van-list>
 <br>
     <van-button block round type="primary" @click="onAdd">添加地址</van-button>  
@@ -36,6 +49,7 @@
 <script>
 import {mapState, mapActions} from 'vuex'
 import { get } from '../../../http/axios';
+import { url } from 'inspector';
 export default {
     data() {
     return {
@@ -80,6 +94,14 @@ export default {
       
   },
   methods: {
+    toEditAddressHandler(item){
+      console.log("..............EDIT................."+item.id)
+      // 跳到添加地址界面并传参
+      // this.$router.push({
+      //   path:"/manager/order_confirm",
+      //   query:item
+      // })
+    },
     loadAdress(){
       let url="/address/findByCustomerId?id=" + this.info.id;
       get(url).then((response) => {
@@ -93,8 +115,14 @@ export default {
     },
     onAdd() {
       this.$router.push("/manager/address_edit")
+    },toDeleteAddressHandler(item){
+      console.log("..............DELETE...............")
+      const url="/address/deleteById"
+      get(url,item.id).then((response) => {
+        this.$toast("删除成功")
+        this.loadAdress()
+      })
     },
-
     onEdit(item, index) {
       Toast('编辑地址:' + index);
     }

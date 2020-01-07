@@ -1,5 +1,5 @@
 <template>
-  <div class="product_item">
+  <div class="product_item" @click="$emit('click')">
     <van-row>
       <van-col :span="4">
         <img v-if="data.photo" :src="data.photo" alt="">

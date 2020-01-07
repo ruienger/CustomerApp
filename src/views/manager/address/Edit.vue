@@ -40,6 +40,8 @@ export default {
                this.$toast.success(response,message);
            }) 
         }
+    },created(){
+        // this.form = this.$route.query
     }
 }
 </script>

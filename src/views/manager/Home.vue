@@ -20,7 +20,7 @@
       :text="value.name"
   />
 </van-grid>
-<briup-product-item v-for="p in products" :key="p.id" :data="p" @click="$emit('click')">
+<briup-product-item v-for="p in products" :key="p.id" :data="p" @click="toBuyItemHandler(p)">
 </briup-product-item>
     </div>
   </div>
@@ -61,6 +61,11 @@ export default {
       }
       post(url,params).then((response) => {
         this.products = response.data.list
+      })
+    },toBuyItemHandler(product){
+      this.$router.push({
+        path:"/manager/order_confirm",
+        query:product
       })
     }
   }

@@ -1,6 +1,6 @@
 <template>
     <briup-fulllayout title="我的地址">
-    {{ form }}
+    <!-- {{ form }} -->
     <van-cell-group>
     <van-field v-model="form.telephone" placeholder="输入手机号" />
     </van-cell-group>
@@ -16,7 +16,7 @@
     <van-cell-group>
     <van-field v-model="form.address" placeholder="输入详细地址" />
     </van-cell-group>
-    <van-button block round type="primary" @click="submitHandler"/>   
+    <van-button block round type="primary" @click="submitHandler" >提交地址</van-button>  
     </briup-fulllayout>
 </template>
 <script>
@@ -40,8 +40,9 @@ export default {
                this.$toast.success(response,message);
            }) 
         }
-    },created(){
-        // this.form = this.$route.query
+    }
+    ,created(){
+        this.form = this.$route.query
     }
 }
 </script>

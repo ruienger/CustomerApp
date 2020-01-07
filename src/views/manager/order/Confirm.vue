@@ -6,7 +6,7 @@
     <van-dropdown-item v-model="addressId" :options="options" />
     </van-dropdown-menu>
     订单详情：
-    <div style="padding:0 2pm">
+    <div class="orderDetail">
         <p>服务名称： {{$route.query.name}}</p>
         <p>服务价格： {{$route.query.price}}</p> 
         <p>服务数量： 1</p> 
@@ -48,6 +48,7 @@ export default {
             })
         }
 
+
     },methods:{
         submitHandler(){
             let url = "/order/save"
@@ -78,4 +79,7 @@ export default {
 }
 </script>
 <style scoped>
+    .orderDetail{
+        padding : 0 2em;
+    }
 </style>

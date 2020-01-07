@@ -3,6 +3,7 @@
     <header class="header">
       <img src="../../assets/home.jpg" alt="">
     </header>
+    <van-cell title="栏目" is-link :arrow-direction="direction" value="更多" @click="showMoreCategory"/>
     <div>
       <van-grid :column-num="3">
       <van-grid-item
@@ -12,6 +13,7 @@
       :text="value.name"
   />
 </van-grid>
+<van-cell title="产品" is-link :arrow-direction="direction" value="更多" @click="showMoreProduct"/>
 <van-grid :column-num="2" icon-size="145px">
       <van-grid-item
       v-for="value in products"
@@ -31,36 +33,72 @@ import { get,post } from '../../http/axios'
 export default {
   data() {
     return{
+      direction: 'down',
       category: [],
       products: []
       }
     
   },
   created(){
-    this.loadCategoties()
-    this.loadProducts()
+    this.loadProducts(true)
+    this.loadCategoties(true)
   },
   methods:{
-    loadCategoties(){
+    showMoreCategory(){
+      if(this.direction === 'down'){
+      this.direction = 'up'
+      this.loadCategoties(false)
+      
+      }else{
+        this.direction = 'down'
+        this.loadCategoties(true)
+      }
+    },
+    showMoreProduct(){
+      console.log(".........................");
+      if(this.direction === 'down'){
+      this.direction = 'up'
+      this.loadProducts(false)
+      
+      }else{
+        this.direction = 'down'
+        this.loadProducts(true)
+      }
+
+    },
+    loadCategoties(isShort){
       let url="/category/findAll"
       get(url).then((response) => {
         // this.category = response.data.slice(0,6)
-        response.data.forEach(item => {
+        this.category = []
+        if(isShort){
+          response.data.forEach(item => {
           if(item.icon != null){
             this.category.push(item)
           }
           
         });
+        }else{this.category = response.data}
+        
+        
+        
       })
     },
-    loadProducts(){
+    loadProducts(isShort){
       let url="/product/query"
       let params = {
         page:0,
         pageSize:10
       }
+      this.products = []
       post(url,params).then((response) => {
-        this.products = response.data.list
+        if(isShort){
+          this.products = response.data.list.slice(0,4)
+        
+        }else{
+          this.products = response.data.list
+        }
+        
       })
     },toBuyItemHandler(product){
       this.$router.push({

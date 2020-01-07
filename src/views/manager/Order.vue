@@ -21,7 +21,7 @@
         
       </van-tab>
     </van-tabs>
-    <div><briup-order-item v-for="o in orders" :key="o.id" :data="o"></briup-order-item></div>
+    <div><briup-order-item v-for="o in orders" :key="o.id" :data="o" ></briup-order-item></div>
   </div>
 </template>
 <script>
@@ -41,6 +41,7 @@ export default {
   },created(){
     this.loadOrders()
   },methods:{
+    
     loadOrders(){
       let url='/order/query'
       this.params.customerId = this.info.id

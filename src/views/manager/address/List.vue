@@ -21,7 +21,7 @@
     v-for="item in olderList"
     :key="item"
     size="large"
-    :title="item.province +'    '+ item.city +'    '+ item.area"
+    :title="item.province +'    '+ item.city +'    '+ item.area + '    ' + item.address"
     :label="info.name"
   >
   <van-icon
@@ -49,7 +49,6 @@
 <script>
 import {mapState, mapActions} from 'vuex'
 import { get } from '../../../http/axios';
-import { url } from 'inspector';
 export default {
     data() {
     return {
@@ -97,10 +96,10 @@ export default {
     toEditAddressHandler(item){
       console.log("..............EDIT................."+item.id)
       // 跳到添加地址界面并传参
-      // this.$router.push({
-      //   path:"/manager/order_confirm",
-      //   query:item
-      // })
+      this.$router.push({
+        path:"/manager/address_edit",
+        query:item
+      })
     },
     loadAdress(){
       let url="/address/findByCustomerId?id=" + this.info.id;
@@ -117,8 +116,8 @@ export default {
       this.$router.push("/manager/address_edit")
     },toDeleteAddressHandler(item){
       console.log("..............DELETE...............")
-      const url="/address/deleteById"
-      get(url,item.id).then((response) => {
+      const url="/address/deleteById?id="+item.id
+      get(url).then((response) => {
         this.$toast("删除成功")
         this.loadAdress()
       })

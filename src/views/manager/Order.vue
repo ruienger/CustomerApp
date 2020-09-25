@@ -22,7 +22,7 @@
       </van-tab>
     </van-tabs>
     <!-- @click="loadOrders" -->
-    <div><briup-order-item v-for="o in orders" :key="o.id" :data="o" @click="showPopAndSendHandler(arguments)"></briup-order-item></div>
+    <div><briup-order-item v-for="o in orders" :key="o.id" :data="o" @click="showPopAndSendHandler(arguments)" @confirm="confirmOrder(arguments)"></briup-order-item></div>
     
   </div>
 </template>
@@ -43,6 +43,15 @@ export default {
   },created(){
     this.loadOrders()
   },methods:{
+    confirmOrder(arg){
+      let url = '/order/confirmOrder?orderId='+arg[0]
+      console.log('........' + arg[0])
+      get(url).then((response) => { 
+        this.$toast("确认成功")
+      })
+      this.visible = false
+      this.loadOrders()
+    },
     showPopAndSendHandler(msg){
       let url = '/order/sendOrder?waiterId='+msg[0]+'&orderId='+msg[1]
       console.log('........' + msg[0] + msg[1])

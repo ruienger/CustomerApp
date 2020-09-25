@@ -4,7 +4,7 @@
       <van-col span="12">订单编号: {{data.id}}</van-col>
       <van-col span="12" class="status">{{data.status}}</van-col>
     </van-row>
-    <van-row @click="showPop">
+    <van-row >
       
       <van-col :span="24" :offset="1" >
         <div v-if="data.orderLines != null">服务：
@@ -30,11 +30,13 @@
     <van-radio-group  v-for="e in employees" :key="e.id" v-model="employees.id" style="padding:1em ">
     <van-radio :name="e.id">{{e.realname}}</van-radio>
     </van-radio-group>
-      <van-button block round type="primary" @click="popDownSendOrder(employees.id)" >派单</van-button> 
+      <van-button block round type="primary" @click="popDownSendOrder(employees.id)" >确认派单</van-button> 
     </van-popup>
     <div class="text-right">
       
       共计{{data.orderLines.length}}个服务，合计￥ {{data.total}}
+      <van-button v-if="data.status === '待派单'" plain type="info" @click="showPop" size="small">派单</van-button>
+      <van-button v-if="data.status === '待确认'" plain type="info" @click="confirm" size="small">确认</van-button>
     </div>
   </div>
 </template>
@@ -44,6 +46,10 @@ export default {
   props:{
     data:{type:Object}
   },methods:{
+    confirm(){
+      this.$emit('confirm',this.data.id)
+
+    },
     popDownSendOrder(employeeID){
       this.$emit('click',employeeID,this.data.id)
       this.visible=false
